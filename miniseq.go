@@ -49,19 +49,19 @@ func debug(debugport *portmidi.Stream) {
 
 func main() {
 	portmidi.Initialize()
-	out, err := portmidi.NewOutputStream(portmidi.DeviceId(2), 1024, 0)
+	out, err := portmidi.NewOutputStream(portmidi.DeviceID(32), 1024, 0)
 	check(err)
-	in, err := portmidi.NewInputStream(portmidi.DeviceId(3), 1024)
+	in, err := portmidi.NewInputStream(portmidi.DeviceID(33), 1024)
 	check(err)
-	instru, err := portmidi.NewOutputStream(portmidi.DeviceId(0), 1024, 0)
+	instru, err := portmidi.NewOutputStream(portmidi.DeviceID(0), 1024, 0)
 	check(err)
 	instru.SetChannelMask(1)
 	//debugport, err := portmidi.NewInputStream(portmidi.DeviceId(1), 1024)
-	//check(err)
+	//check(err)*/
 	for i := 0; i < portmidi.CountDevices(); i++ {
-		fmt.Println(i, portmidi.GetDeviceInfo(portmidi.DeviceId(i)))
+		fmt.Println(i, portmidi.Info(portmidi.DeviceID(i)))
 	}
-	out.WriteSysExBytes(portmidi.Time(), []byte{0xB0, 0x00, 0x00})
+	//out.WriteSysExBytes(portmidi.Time(), []byte{0xB0, 0x00, 0x00})
 	//out.WriteSysExBytes(portmidi.Time(), []byte{0x90, 0x60, 0x0F})
 	go scan(out, instru)
 	//go debug(debugport)
